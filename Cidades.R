@@ -1,7 +1,7 @@
 source("Estado.R")
 
-## Classe e métodos para o problema do Quebra-Cabeça de 8 peças
-QuebraCabeca <- function(desc = NULL, pai = NULL){
+## Classe e métodos para o Problema do trajeto entre duas cidades
+Cidades <- function(desc = NULL, pai = NULL){
 
   e <- environment()
   
@@ -11,28 +11,28 @@ QuebraCabeca <- function(desc = NULL, pai = NULL){
   assign("h", Inf, envir = e)
   assign("f", Inf, envir = e)
   
-  class(e) <- c("QuebraCabeca", "Estado")
+  class(e) <- c("Cidades", "Estado")
 
   return(e)
 }
 
 ## Sobrecarregando o operador "==" para comparação entre estados
-Ops.QuebraCabeca = function(obj1,obj2){
+Ops.Cidades = function(obj1,obj2){
   if(.Generic == "=="){
     return(all(obj1$desc == obj2$desc))
   }
 }
 
 ## Sobrecarga da função genérica "print" do R
-print.QuebraCabeca <- function(obj) {
-  cat("Quebra-Cabeça: (", obj$desc, ")\n")
+print.Cidades <- function(obj) {
+  cat("Cidades: (", obj$desc, ")\n")
   cat("G(n): ", obj$g, "\n")
   cat("H(n): ", obj$h, "\n")
   cat("F(n): ", obj$f, "\n")
 }
 
 ## Sobrecarga da função genérica "heuristica", definida por Estado.R
-heuristica.QuebraCabeca <- function(atual, obj){
+heuristica.Cidades <- function(atual, obj){
   
   if(is.null(atual$desc))
     return(Inf)
@@ -56,7 +56,6 @@ heuristica.QuebraCabeca <- function(atual, obj){
                 coluna = l - j
 
               dist = dist + linha + coluna
-              break
             }
           }
         }
@@ -67,59 +66,31 @@ heuristica.QuebraCabeca <- function(atual, obj){
   return(dist)
 }
 
-geraFilhos.QuebraCabeca <- function(atual, obj) {
+geraFilhos.Cidades <- function(obj) {
   
   filhos <- list()
   
   filhosDesc <- list()
 
   desc <- obj$desc
-
-  atual <- atual$desc
-
-  ## operadores: (x,x,x,x) -> esquerda, direita, cima, baixo 
-  ## movimentações do espaço vazio
-
-  for(i in 0:3){
-    for(j in 0:3){
-      if(atual[i,j] == 0){
-        if(i==0){
-
-          if(j==0){
-            operadores <- list(c(0,1,0,0), c(0,0,0,1))
-          }else if(j==1){
-            operadores <- list(c(1,0,0,0), c(0,1,0,0), c(0,0,0,1))
-          }else{ ## j==2
-            operadores <- list(c(1,0,0,0), c(0,0,0,1))
-          }
-
-        }else if(i==1){
-
-          if(j==0){
-            operadores <- list(c(0,0,1,0), c(0,0,0,1), c(0,1,0,0))
-          }else if(j==1){
-            operadores <- list(c(1,0,0,0), c(0,1,0,0), c(0,0,0,1), c(0,0,1,0))
-          }else{ ## j==2
-            operadores <- list(c(1,0,0,0), c(0,0,0,1), c(0,0,1,0))
-          }
-
-        }else{  ##i==2
-
-          if(j==0){
-            operadores <- list(c(0,1,0,0), c(0,0,1,0))
-          }else if(j==1){
-            operadores <- list(c(1,0,0,0), c(0,1,0,0), c(0,0,1,0))
-          }else{ ## j==2
-            operadores <- list(c(1,0,0,0), c(0,0,1,0))
-          }
-        }
-        break
-      }
-    }
-  }
-      
-  filhosDesc <- lapply(operadores, function(op) desc-op) ## ???
+  
+  bAtual <- as.numeric(desc[3])
+  
+  bNovo <- as.numeric(bAtual != 1)
+  
+  ## gera filhos usando todos os operadores  
+  if(bAtual == 1){
     
+    operadores <- list(c(2,0,bAtual), c(0,2,bAtual), c(1,1,bAtual), c(1,0,bAtual), c(0,1,bAtual))
+    
+    filhosDesc <- lapply(operadores, function(op) desc-op)
+    
+  } else {
+    
+    operadores <- list(c(2,0,bNovo), c(0,2,bNovo), c(1,1,bNovo), c(1,0,bNovo), c(0,1,bNovo))
+    
+    filhosDesc <- lapply(operadores, function(op) desc+op)
+  }
   
   ## verifica estados filhos incompatíveis com o problema  
   incompativeis <- sapply(1:length(filhosDesc),
@@ -141,7 +112,7 @@ geraFilhos.QuebraCabeca <- function(atual, obj) {
   
   ## gera os objetos Canibais para os filhos
   for(filhoDesc in filhosDesc){
-    filho <- QuebraCabeca(desc = filhoDesc, pai = obj)
+    filho <- Cidades(desc = filhoDesc, pai = obj)
     filho$h <- heuristica(filho)
     filho$g <- obj$g + 1
     filhos <- c(filhos, list(filho))
