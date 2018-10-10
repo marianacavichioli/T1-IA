@@ -1,20 +1,14 @@
-debugSource("QuebraCabeca.R")
-debugSource("buscaDesinformada.R")
-debugSource("buscaInformada.R")
+source("QuebraCabeca.R")
+source("buscaDesinformada.R")
+source("buscaInformada.R")
 
 
-inicial <- QuebraCabeca(desc = rbind(c(1,2,3), c(4,5,6), c(7,8,0))) ## 8 peças e 1 lugar vazio     
-
-# 1 2 3
-# 4 5 6 
-# 7 8 0
+inicial <- QuebraCabeca(desc = c(1,0,3,8,2,4,7,6,5)) ## 8 peças e 1 lugar vazio     
+print(inicial)
 
 objetivo <- QuebraCabeca()
-objetivo$desc <- rbind(c(1,2,3), c(8,0,4), c(7,6,5))
-
-# 1 2 3
-# 8 0 4 
-# 7 6 5
+objetivo$desc <- c(1, 2, 3, 8, 0, 4, 7, 6, 5)
+print(objetivo$desc)
 
 cat("====\tBusca em Largura\t====\n")
 print(unlist(buscaEmLargura(inicial, objetivo)))

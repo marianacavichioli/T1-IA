@@ -1,12 +1,40 @@
-debugSource("Cidades.R")
-debugSource("buscaDesinformada.R")
-debugSource("buscaInformada.R")
+source("Cidades.R")
+source("buscaDesinformada.R")
+source("buscaInformada.R")
 
+CITY_NAMES <- c(
+    "A", "B", "C", "D",
+    "F", "G", "L", "M",
+    "O", "P", "R", "S",
+    "T", "U", "Z"
+)
 
-inicial <- Cidades(desc = rbind(c(1,2,3), c(4,5,6), c(7,8,0))) ## 8 peças e 1 lugar vazio     
+matriz <- matrix(c(
+        0,0,0,0,0,0,0,0,0,0,0,140,118,0,75
+        ,0,0,0,0,211,90,0,0,0,101,0,0,0,85,0
+        ,0,0,0,120,0,0,0,0,0,138,146,0,0,0,0
+        ,0,0,120,0,0,0,0,75,0,0,0,0,0,0,0
+        ,0,211,0,0,0,0,0,0,0,0,0,99,0,0,0
+        ,0,90,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ,0,0,0,0,0,0,0,70,0,0,0,0,111,0,0
+        ,0,0,0,75,0,0,70,0,0,0,0,0,0,0,0
+        ,0,0,0,0,0,0,0,0,0,0,0,151,0,0,71
+        ,0,101,138,0,0,0,0,0,0,0,97,0,0,0,0
+        ,0,0,146,0,0,0,0,0,0,97,0,80,0,0,0
+        ,140,0,0,0,99,0,0,0,151,0,80,0,0,0,0
+        ,118,0,0,0,0,0,111,0,0,0,0,0,0,0,0
+        ,0,0,85,0,0,0,0,0,0,0,0,0,0,0,0
+        ,75,0,0,0,0,0,0,0,71,0,0,0,0,0,0
+    ), nrow=15, ncol=15)
 
-objetivo <- Cidades()
-objetivo$desc <- rbind(c(1,2,3), c(8,0,4), c(7,6,5))
+rownames(matriz, do.NULL = FALSE)
+colnames(matriz, do.NULL = FALSE)
+rownames(matriz) <- CITY_NAMES
+colnames(matriz) <- CITY_NAMES
+
+inicial <- Cidades(desc = "A", cidades = matriz)
+objetivo <- Cidades(cidades = matriz)
+objetivo$desc <- "U"
 
 cat("====\tBusca em Largura\t====\n")
 print(unlist(buscaEmLargura(inicial, objetivo)))

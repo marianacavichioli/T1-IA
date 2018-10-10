@@ -25,27 +25,31 @@ Ops.QuebraCabeca = function(obj1,obj2){
 
 ## Sobrecarga da função genérica "print" do R
 print.QuebraCabeca <- function(obj) {
-  cat("Quebra-Cabeça: (", obj$desc, ")\n")
+  quebra_cabeca <- t(matrix(obj$desc,nrow=3,ncol=3))
+  print(quebra_cabeca)
   cat("G(n): ", obj$g, "\n")
   cat("H(n): ", obj$h, "\n")
   cat("F(n): ", obj$f, "\n")
 }
 
 ## Sobrecarga da função genérica "heuristica", definida por Estado.R
-heuristica.QuebraCabeca <- function(atual, obj){
-  
+heuristica.QuebraCabeca <- function(atual, ...){
+
+  #print(atual$desc)
   if(is.null(atual$desc))
     return(Inf)
 
-  ## h(obj) = soma  das  distâncias  de  cada peça  fora  do  lugar  para  sua  posição  correta
-  ## heuristica é a soma da variação da linha e da coluna
+  objetivo = rbind(c(1,2,3), c(8,0,4), c(7,6,5))
+  matriz = matrix(unlist(atual$desc), ncol = 3, byrow = TRUE)
 
-  for(i in 0:3){
-    for(j in 0:3){
-      if(atual$desc[i,j] != obj$desc[i,j]){
-        for(k in 0:3){
-          for(l in 0:3){
-            if(atual$desc[i,j] == obj$desc[k,l]){
+  dist = 0
+
+  for(i in 1:3){
+    for(j in 1:3){
+      if(matriz[i,j] != objetivo[i,j]){
+        for(k in 1:3){
+          for(l in 1:3){
+            if(matriz[i,j] == objetivo[k,l]){
               if (i > k)
                 linha = i - k
               else
@@ -67,85 +71,86 @@ heuristica.QuebraCabeca <- function(atual, obj){
   return(dist)
 }
 
-geraFilhos.QuebraCabeca <- function(atual, obj) {
-  
+geraFilhos.QuebraCabeca <- function(obj) {
+
   filhos <- list()
-  
   filhosDesc <- list()
 
-  desc <- obj$desc
+  desc <- obj$desc 
+  atual = matrix(unlist(t(desc)), ncol = 3, byrow = TRUE) #matriz
 
-  atual <- atual$desc
 
-  ## operadores: (x,x,x,x) -> esquerda, direita, cima, baixo 
-  ## movimentações do espaço vazio
+  i <- which(atual == 0, arr.ind=T)[1]
+  j <- which(atual == 0, arr.ind=T)[2]
 
-  for(i in 0:3){
-    for(j in 0:3){
-      if(atual[i,j] == 0){
-        if(i==0){
+  if(i==1){
+    if(j==1){
+    
+      operadores <- list(rbind(c(atual[1,2],0,atual[1,3]), c(atual[2,1],atual[2,2],atual[2,3]), c(atual[3,1],atual[3,2],atual[3,3])),
+                         rbind(c(atual[2,1],atual[1,2],atual[1,3]), c(0,atual[2,2],atual[2,3]), c(atual[3,1],atual[3,2],atual[3,3])))
+    }else if(j==2){
 
-          if(j==0){
-            operadores <- list(c(0,1,0,0), c(0,0,0,1))
-          }else if(j==1){
-            operadores <- list(c(1,0,0,0), c(0,1,0,0), c(0,0,0,1))
-          }else{ ## j==2
-            operadores <- list(c(1,0,0,0), c(0,0,0,1))
-          }
+      operadores <- list(rbind(c(0,atual[1,1],atual[1,3]), c(atual[2,1],atual[2,2],atual[2,3]), c(atual[3,1],atual[3,2],atual[3,3])),
+                         rbind(c(atual[1,1],atual[1,3],0), c(atual[2,1],atual[2,2],atual[2,3]), c(atual[3,1],atual[3,2],atual[3,3])),
+                         rbind(c(atual[1,1],atual[2,2],atual[1,3]), c(atual[2,1],0,atual[2,3]), c(atual[3,1],atual[3,2],atual[3,3])))
+    }else{ ## j==3
+      operadores <- list(rbind(c(atual[1,1],0,atual[1,2]), c(atual[2,1],atual[2,2],atual[2,3]), c(atual[3,1],atual[3,2],atual[3,3])),
+                         rbind(c(atual[1,1],atual[1,2],atual[2,3]), c(atual[2,1],atual[2,2],0), c(atual[3,1],atual[3,2],atual[3,3])))
+    }
 
-        }else if(i==1){
+  }else if(i==2){
 
-          if(j==0){
-            operadores <- list(c(0,0,1,0), c(0,0,0,1), c(0,1,0,0))
-          }else if(j==1){
-            operadores <- list(c(1,0,0,0), c(0,1,0,0), c(0,0,0,1), c(0,0,1,0))
-          }else{ ## j==2
-            operadores <- list(c(1,0,0,0), c(0,0,0,1), c(0,0,1,0))
-          }
+    if(j==1){
+      operadores <- list(rbind(c(0,atual[1,2],atual[1,3]), c(atual[1,1],atual[2,2],atual[2,3]), c(atual[3,1],atual[3,2],atual[3,3])),
+                         rbind(c(atual[1,1],atual[1,2],atual[1,3]), c(atual[2,2],0,atual[2,3]), c(atual[3,1],atual[3,2],atual[3,3])),
+                         rbind(c(atual[1,1],atual[1,2],atual[1,3]), c(atual[3,1],atual[2,2],atual[2,3]), c(0,atual[3,2],atual[3,3])))
+    }else if(j==2){
+      operadores <- list(rbind(c(atual[1,1],0,atual[1,3]), c(atual[2,1],atual[1,2],atual[2,3]), c(atual[3,1],atual[3,2],atual[3,3])),
+                         rbind(c(atual[1,1],atual[1,2],atual[1,3]), c(0,atual[2,1],atual[2,3]), c(atual[3,1],atual[3,2],atual[3,3])),
+                         rbind(c(atual[1,1],atual[1,2],atual[1,3]), c(atual[2,1],atual[2,3],0), c(atual[3,1],atual[3,2],atual[3,3])),
+                         rbind(c(atual[1,1],atual[1,2],atual[1,3]), c(atual[2,1],atual[3,2],atual[2,3]), c(atual[3,1],0,atual[3,3])))
+    }else{ ## j==3
+      operadores <- list(rbind(c(atual[1,1],atual[1,2],0), c(atual[2,1],atual[2,2],atual[1,3]), c(atual[3,1],atual[3,2],atual[3,3])),
+                          rbind(c(atual[1,1],atual[1,2],atual[1,3]), c(atual[2,1],0,atual[2,2]), c(atual[3,1],atual[3,2],atual[3,3])),
+                         rbind(c(atual[1,1],atual[1,2],atual[1,3]), c(atual[2,1],atual[2,2],atual[3,3]), c(atual[3,1],atual[3,2],0)))
+    }
 
-        }else{  ##i==2
+  }else{  ##i==3
 
-          if(j==0){
-            operadores <- list(c(0,1,0,0), c(0,0,1,0))
-          }else if(j==1){
-            operadores <- list(c(1,0,0,0), c(0,1,0,0), c(0,0,1,0))
-          }else{ ## j==2
-            operadores <- list(c(1,0,0,0), c(0,0,1,0))
-          }
-        }
-        break
-      }
+    if(j==1){
+      operadores <- list(rbind(c(atual[1,1],atual[1,2],atual[1,3]), c(0,atual[2,2],atual[2,3]), c(atual[2,1],atual[3,2],atual[3,3])),
+          rbind(c(atual[1,1],atual[1,2],atual[1,3]), c(atual[2,1],atual[2,2],atual[2,3]), c(atual[3,2],0,atual[3,3])))
+
+    }else if(j==2){
+      operadores <- list(rbind(c(atual[1,1],atual[1,2],atual[1,3]), c(atual[2,1],0,atual[2,3]), c(atual[3,1],atual[2,2],atual[3,3])),
+           rbind(c(atual[1,1],atual[1,2],atual[1,3]), c(atual[2,1],atual[2,2],atual[2,3]), c(0,atual[3,1],atual[3,3])),
+           rbind(c(atual[1,1],atual[1,2],atual[1,3]), c(atual[2,1],atual[2,2],atual[2,3]), c(atual[3,1],atual[3,3],0)))
+    }else{ ## j==3
+      operadores <- list(rbind(c(atual[1,1],atual[1,2],atual[1,3]), c(atual[2,1],atual[2,2],0), c(atual[3,1],atual[3,2],atual[2,3])),
+          rbind(c(atual[1,1],atual[1,2],atual[1,3]), c(atual[2,1],atual[2,2],atual[2,3]), c(atual[3,1],0,atual[3,2])))
     }
   }
-      
-  filhosDesc <- lapply(operadores, function(op) desc-op) ## ???
-    
+
+  #print(unlist(c(t(atual))))
+  # print(unlist(c(operadores)))
+
+  filhosDesc <- c(t(operadores))
+  #print(filhosDesc)
   
-  ## verifica estados filhos incompatíveis com o problema  
-  incompativeis <- sapply(1:length(filhosDesc),
-                    function(i) {
-                      fDesc <- filhosDesc[[i]]
-                      if((fDesc['C'] > fDesc['M']) || ## Se #Canibais > #Missionários OU
-                         (any(fDesc[1:2] > 3)) ||     ##    #Canibais ou #Missionários > 3 OU
-                         (any(fDesc[1:2] < 0)))       ##    #Canibais ou #Missionarios < 0 então
-                        i ## é incompatível: retorna índice
-                      else
-                        0 ## senão é compatível
-                    })
-  
-  ## mantém no vetor apenas os que são incompatíveis
-  incompativeis <- incompativeis[incompativeis != 0]
-  
-  ## remove estados filhos incompatíveis
-  filhosDesc <- filhosDesc[-incompativeis]
-  
-  ## gera os objetos Canibais para os filhos
   for(filhoDesc in filhosDesc){
+    # print("1: ")
+    # print(filhoDesc)
+
+    filhoDesc <- unlist(c(t(filhoDesc)))
+    # print("2: ")
+    # print(filhoDesc)
+
     filho <- QuebraCabeca(desc = filhoDesc, pai = obj)
     filho$h <- heuristica(filho)
-    filho$g <- obj$g + 1
+    filho$g <- 0
+    filho$f <- filho$h
     filhos <- c(filhos, list(filho))
   }
-  
-  return(filhos)
-} 
+
+  return(filhos) 
+}
