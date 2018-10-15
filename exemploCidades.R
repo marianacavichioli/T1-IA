@@ -2,7 +2,7 @@ source("Cidades.R")
 source("buscaDesinformada.R")
 source("buscaInformada.R")
 
-CITY_NAMES <- c(
+nomes <- c(
     "A", "B", "C", "D",
     "F", "G", "L", "M",
     "O", "P", "R", "S",
@@ -27,8 +27,8 @@ matriz <- matrix(c(
         ,75,0,0,0,0,0,0,0,71,0,0,0,0,0,0
     ), nrow=15, ncol=15)
 
-rownames(matriz) <- CITY_NAMES
-colnames(matriz) <- CITY_NAMES
+rownames(matriz) <- nomes
+colnames(matriz) <- nomes
 
 inicial <- Cidades(desc = "A", cidades = matriz)
 objetivo <- Cidades(cidades = matriz)
