@@ -35,7 +35,6 @@ print.QuebraCabeca <- function(obj) {
 ## Sobrecarga da função genérica "heuristica", definida por Estado.R
 heuristica.QuebraCabeca <- function(atual, ...){
 
-  #print(atual$desc)
   if(is.null(atual$desc))
     return(Inf)
 
@@ -131,24 +130,14 @@ geraFilhos.QuebraCabeca <- function(obj) {
     }
   }
 
-  #print(unlist(c(t(atual))))
-  # print(unlist(c(operadores)))
-
   filhosDesc <- c(t(operadores))
-  #print(filhosDesc)
   
   for(filhoDesc in filhosDesc){
-    # print("1: ")
-    # print(filhoDesc)
-
     filhoDesc <- unlist(c(t(filhoDesc)))
-    # print("2: ")
-    # print(filhoDesc)
-
     filho <- QuebraCabeca(desc = filhoDesc, pai = obj)
     filho$h <- heuristica(filho)
     filho$g <- 0
-    filho$f <- filho$h
+    filho$f <- filho$h 
     filhos <- c(filhos, list(filho))
   }
 

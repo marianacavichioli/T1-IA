@@ -27,8 +27,6 @@ matriz <- matrix(c(
         ,75,0,0,0,0,0,0,0,71,0,0,0,0,0,0
     ), nrow=15, ncol=15)
 
-rownames(matriz, do.NULL = FALSE)
-colnames(matriz, do.NULL = FALSE)
 rownames(matriz) <- CITY_NAMES
 colnames(matriz) <- CITY_NAMES
 

@@ -1,5 +1,6 @@
 source("Estado.R")
 
+## Classe e métodos para o problema da distância entre cidades
 Cidades <- function(desc=NULL, pai=NULL, cidades=NULL){
   
 	e <- environment()
@@ -16,26 +17,26 @@ Cidades <- function(desc=NULL, pai=NULL, cidades=NULL){
 	return(e)
 }
 
-## Sobrecarregando o operador "==" para comparação entre Trajetos
+## Sobrecarregando o operador "==" para comparação entre estados
 Ops.Cidades = function(obj1,obj2){
  	if(.Generic == "=="){
   		return(all(obj1$desc == obj2$desc))
  	}
 }
 
-## Sobrecarga da função genérica print
+## Sobrecarga da função genérica "print" do R
 print.Cidades <- function(obj){
-	cat("CIDADE: ", obj$desc, "\n")
+	cat("Cidade: ", obj$desc, "\n")
 	cat("G(N): ", obj$g, "\n")
 	cat("H(N): ", obj$h, "\n")
 	cat("F(N): ", obj$f, "\n")
 }
 
-## Criação do método genérico "heuristica"
 heuristica <- function(atual, ...){
   
   if(is.null(atual$desc))
     return(Inf)
+    
   distancia <- 0
   
   if(atual$desc == "A"){
@@ -73,34 +74,26 @@ heuristica <- function(atual, ...){
   return(distancia)
 }
 
-## Criação do método genérico "geraFilhos"
 geraFilhos <- function(obj) {
   
   filhos <- list()
-  #print(filhos)
   filhosDesc <- list()
   cidade <- obj$cidades
-  #print(cidade)
   vizinhos <- c(cidade[obj$desc,])
-
-  
 
   i <- which(vizinhos != 0)
 
   filhosDesc <- c(filhosDesc, unlist(names(i)))
-  #print(filhosDesc)
 
-  ## gera os objetos Canibais para os filhos
+  ## gera os objetos Cidades para os filhos
   for(filhoDesc in filhosDesc){
     filho <- Cidades(desc = filhoDesc, pai = obj, cidades = obj$cidades)
     filho$h <- heuristica(filho)
-    #print(vizinhos[filhoDesc])
     filho$g <- obj$g + vizinhos[filhoDesc]
     filho$f <- filho$h + filho$g
     filhos <- c(filhos, list(filho))
-    #print(list(filho))
   }
-  #print(filhos)
+
   return(filhos)
 } 
 
