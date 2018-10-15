@@ -1,0 +1,179 @@
+====    Busca em Largura        ====
+[[1]]
+CIDADE:  A 
+G(N):  0 
+H(N):  Inf 
+F(N):  Inf 
+
+[[2]]
+CIDADE:  S 
+G(N):  140 
+H(N):  253 
+F(N):  393 
+
+[[3]]
+CIDADE:  R 
+G(N):  220 
+H(N):  193 
+F(N):  413 
+
+[[4]]
+CIDADE:  C 
+G(N):  366 
+H(N):  160 
+F(N):  526 
+
+[[5]]
+CIDADE:  U 
+G(N):  451 
+H(N):  80 
+F(N):  531 
+
+====    Busca em Profundidade   =====
+[[1]]
+CIDADE:  A 
+G(N):  0 
+H(N):  Inf 
+F(N):  Inf 
+
+[[2]]
+CIDADE:  S 
+G(N):  140 
+H(N):  253 
+F(N):  393 
+
+[[3]]
+CIDADE:  F 
+G(N):  239 
+H(N):  178 
+F(N):  417 
+
+[[4]]
+CIDADE:  B 
+G(N):  450 
+H(N):  0 
+F(N):  450 
+
+[[5]]
+CIDADE:  P 
+G(N):  551 
+H(N):  98 
+F(N):  649 
+
+[[6]]
+CIDADE:  C 
+G(N):  689 
+H(N):  160 
+F(N):  849 
+
+[[7]]
+CIDADE:  U 
+G(N):  774 
+H(N):  80 
+F(N):  854 
+
+====    Busca de Custo Uniforme =====
+[[1]]
+CIDADE:  A 
+G(N):  0 
+H(N):  Inf 
+F(N):  Inf 
+
+[[2]]
+CIDADE:  S 
+G(N):  140 
+H(N):  253 
+F(N):  393 
+
+[[3]]
+CIDADE:  R 
+G(N):  220 
+H(N):  193 
+F(N):  413 
+
+[[4]]
+CIDADE:  C 
+G(N):  366 
+H(N):  160 
+F(N):  526 
+
+[[5]]
+CIDADE:  U 
+G(N):  451 
+H(N):  80 
+F(N):  531 
+
+====    Busca Best-First (Gulosa)       =====
+[[1]]
+CIDADE:  A 
+G(N):  0 
+H(N):  Inf 
+F(N):  Inf 
+
+[[2]]
+CIDADE:  S 
+G(N):  140 
+H(N):  253 
+F(N):  253 
+
+[[3]]
+CIDADE:  F 
+G(N):  239 
+H(N):  178 
+F(N):  178 
+
+[[4]]
+CIDADE:  B 
+G(N):  450 
+H(N):  0 
+F(N):  0 
+
+[[5]]
+CIDADE:  P 
+G(N):  551 
+H(N):  98 
+F(N):  98 
+
+[[6]]
+CIDADE:  C 
+G(N):  689 
+H(N):  160 
+F(N):  160 
+
+[[7]]
+CIDADE:  U 
+G(N):  774 
+H(N):  80 
+F(N):  80 
+
+====    Busca Best-First (A*)   =====
+[[1]]
+CIDADE:  A 
+G(N):  0 
+H(N):  Inf 
+F(N):  Inf 
+
+[[2]]
+CIDADE:  S 
+G(N):  140 
+H(N):  253 
+F(N):  393 
+
+[[3]]
+CIDADE:  R 
+G(N):  220 
+H(N):  193 
+F(N):  413 
+
+[[4]]
+CIDADE:  C 
+G(N):  366 
+H(N):  160 
+F(N):  526 
+
+[[5]]
+CIDADE:  U 
+G(N):  451 
+H(N):  80 
+F(N):  531 
+ 

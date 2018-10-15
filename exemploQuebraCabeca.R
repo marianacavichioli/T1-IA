@@ -3,7 +3,7 @@ source("buscaDesinformada.R")
 source("buscaInformada.R")
 
 
-inicial <- QuebraCabeca(desc = c(1,0,3,8,2,4,7,6,5)) ## 8 peças e 1 lugar vazio     
+inicial <- QuebraCabeca(desc = c(2,8,3,1,6,4,7,0,5)) ## 8 peças e 1 lugar vazio     
 print(inicial)
 
 objetivo <- QuebraCabeca()
